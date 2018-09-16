@@ -1,0 +1,11 @@
+"Lois, y compris constitutionnelles",
+"Actes réglementaires", 
+"Ordonnances de l'article 38 de la Constitution",
+"Autres décisions publiques",
+"Décisions d'espèce",
+"Marchés publics d'une valeur supérieure aux seuils européens",
+"Contrats de concession d'une valeur supérieure aux seuils européens",
+"Contrats de cession d'un bien du domaine privé de l'État ou de ses établissements publics",
+"Baux emphytéotiques administratifs",
+"Contrats valant autorisation temporaire d'occupation du domaine public"
+"Délibérations approuvant la constitution d’une société d’économie mixte"

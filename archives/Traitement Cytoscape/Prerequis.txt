@@ -1,0 +1,10 @@
+Prérequis pour utiliser cytoscape
+1/ en cmd :
+	pip install requests
+2/ Télécharger python_igraph0.7....whl 
+	pip install PATH/python_igraph0.7....whl (PATH chemin d'accès au fichier)
+3/ pip install py2cytoscape
+
+Faire tourner cytoscape sur machine serveur (port 1234 par défaut)
+
+

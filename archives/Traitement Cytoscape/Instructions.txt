@@ -1,0 +1,17 @@
+DEMO : 
+Copier index.html et cytoscape.js dans le même repertoire.
+Lancer index.html avec un navigateur web.
+Indiquer dans le champ "Parcourir" le fichier à importer, avec deux possibilités :
+
+ - soit on load le fichier brut de la HATVP (.json), on obtient dans la console l'objet .cy à copier coller pour créer un fichier (à convertir en UTF-8) importable" dans cytoscape (Import/Network/File) 
+Dans cytoscape, on applique le layout, c'est à dire qu'on crée le graphe à probablement parler (plusieurs algo pour différents type de graphe, réglages de paramètres possible).
+On peut ensuite exporter le network avec les coordonnées des noeuds de chaque lobby, c'est à dire créer un fichier .cyjs
+Enregistrer le fichier .cyjs quelquepart.
+
+- soit on load un fichier .cyjs comportant les noeuds avec leurs coordonnées calculées par cytoscape.js.
+
+Mode rapide (traitement cytoscape déjà effectuer dans le fichier 'PremierTraitement.json.cyjs') :
+-Copier index.html et cytoscape.js dans le même repertoire.
+Enregistrer le fichier PremierTraitement.json.cyjs quelquepart.
+Lancer index.html avec un navigateur web.
+Indiquer dans le champ "Parcourir" le fichier PremierTraitement.json.cyjs et lancer 'Load'

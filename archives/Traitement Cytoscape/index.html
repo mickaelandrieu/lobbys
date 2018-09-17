@@ -1,0 +1,416 @@
+<html>
+<head>
+    <title>Visualisation lobbys</title>
+    <script src='cytoscape.js'></script>
+</head>
+<style>
+    #cy {
+        width: 100%;
+        height: 80%;
+        position: absolute;
+        top: 120px;
+        left: 0px;
+    }
+</style>
+
+<body>
+<form id="jsonFile" name="jsonFile" enctype="multipart/form-data" method="post">
+  <fieldset>
+    <h2>Importer fichier .json de la Hatvp ou fichier .cyjs issu de Cytoscape </h2>
+     <input type='file' id='fileinput'>
+     <input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+  </fieldset>
+</form>
+<div id="budget"></div>
+<div id="cy"></div>
+<script> 
+	var chargement = {};
+	var budgetTotalExercice = 0;
+	var cy = cytoscape({
+	container: document.getElementById('cy'),
+	elements: [
+		],
+	style: [
+        {
+							selector : "node",
+							css : {
+								"background-opacity" : 1.0,
+								"background-color" : "rgb(0,0,0)",
+								"border-width" : 0.0,
+								"text-valign" : "center",
+								"text-halign" : "center",
+								"font-size" : 10,
+								"shape" : "ellipse",
+								"border-color" : "rgb(0,0,0)",
+								"width" : "data(weight)",
+								"text-opacity" : 1.0,
+								//"font-family" : "Monospaced.plain",
+								"font-weight" : "normal",
+								"height" : "data(weight)",
+								"color" : "rgb(204,0,0)",
+								"border-opacity" : 1.0,
+								"content" : "data(nomUsage)"
+								}
+		} ],
+	layout: {
+		name: 'random'
+		}
+	});
+
+/* for (var i = 0; i < 10; i++) {
+    cy.add({
+        data: { id: 'node' + i }
+        }
+    );
+    var source = 'node' + i;
+    cy.add({
+        data: {
+            id: 'edge' + i,
+            source: source,
+            target: (i % 2 == 0 ? 'a' : 'b')
+        }
+    });
+}
+
+cy.layout({
+    name: 'circle'
+		}).run();
+*/
+// console.log(newArr);
+
+function traitementDuBrut(brutJson){
+var type;
+if (brutJson.publications) {
+	type ="HATVP";
+	//console.log(brutJson.publications);
+	for (var orgaNum in brutJson.publications) {
+		chargement["Key:" + orgaNum] = brutJson.publications[orgaNum];
+		}
+	}
+else if (brutJson.target_cytoscapejs_version) {
+	type ="cyto";
+	chargement = brutJson;
+}
+return type;
+}
+
+function numerisationBudget(str) {
+		var budget = 0;
+		switch (str) {
+		case "< 10 000 euros" : budget = 7;
+								break;
+		case "> = 10 000 euros et < 25 000 euros" : budget = 17;
+								break;							
+		case "> = 25 000 euros et < 50 000 euros" : budget = 37;
+								break;	
+		case "> = 50 000 euros et < 75 000 euros" : budget = 62;
+								break;	
+		case "> = 75 000 euros et < 100 000 euros" : budget = 87;
+								break;									
+		case "> = 100 000 euros et < 200 000 euros" : budget = 150;
+								break;												
+		case "> = 200 000 euros et < 300 000 euros" : budget = 250;
+								break;
+		case "> = 300 000 euros et < 400 000 euros" : budget = 350;
+								break;
+		case "> = 400 000 euros et < 500 000 euros" : budget = 450;
+								break;					
+		case "> = 500 000 euros et < 600 000 euros" : budget = 550;
+								break;
+		case "> = 600 000 euros et < 700 000 euros" : budget = 650;
+								break;		
+		case "> = 700 000 euros et < 800 000 euros" : budget = 750;
+								break;	
+		case "> = 800 000 euros et < 900 000 euros" : budget = 850;
+								break;	
+		case "> = 900 000 euros et < 1 000 000 euros" : budget = 950;
+								break;	
+		case "> = 1 000 000 euros et < 1 250 000 euros" : budget = 1125;
+								break;	
+		case "> = 1 250 000 euros et < 1 500 000 euros" : budget = 1375;
+								break;
+		case "> = 1 500 000 euros et < 1 750 000 euros" : budget = 1625;
+								break;	
+		case "> = 1 750 000 euros et < 2 000 000 euros" : budget = 1875;
+								break;
+		case "> = 2 000 000 euros et < 2 250 000 euros" : budget = 2125;
+								break;	
+		case "> = 2 250 000 euros et < 2 500 000 euros" : budget = 2375;
+								break;
+		case "> = 2 500 000 euros et < 2 750 000 euros" : budget = 2625;
+								break;	
+		case "> = 2 750 000 euros et < 3 000 000 euros" : budget = 2875;
+								break;
+		case "> = 3 000 000 euros et < 3 250 000 euros" : budget = 3125;
+								break;	
+		case "> = 3 250 000 euros et < 3 500 000 euros" : budget = 3375;
+								break;
+		case "> = 3 500 000 euros et < 3 750 000 euros" : budget = 3625;
+								break;	
+		case "> = 3 750 000 euros et < 4 000 000 euros" : budget = 3875;
+								break;
+		case "> = 4 000 000 euros et < 4 250 000 euros" : budget = 4125;
+								break;	
+		case "> = 4 250 000 euros et < 4 500 000 euros" : budget = 4375;
+								break;
+		case "> = 4 500 000 euros et < 4 750 000 euros" : budget = 4625;
+								break;	
+		case "> = 4 750 000 euros et < 5 000 000 euros" : budget = 4875;
+								break;
+		case "> = 5 000 000 euros et < 5 250 000 euros" : budget = 5125;
+								break;	
+		case "> = 5 250 000 euros et < 5 500 000 euros" : budget = 5375;
+								break;
+		case "> = 5 500 000 euros et < 5 750 000 euros" : budget = 5625;
+								break;	
+		case "> = 5 750 000 euros et < 6 000 000 euros" : budget = 5875;
+								break;
+		case "> = 6 000 000 euros et < 6 250 000 euros" : budget = 6125;
+								break;	
+		case "> = 6 250 000 euros et < 6 500 000 euros" : budget = 6375;
+								break;
+		case "> = 6 500 000 euros et < 6 750 000 euros" : budget = 6625;
+								break;	
+		case "> = 6 750 000 euros et < 6 000 000 euros" : budget = 6875;
+								break;
+		case "> = 7 000 000 euros et < 7 250 000 euros" : budget = 7125;
+								break;	
+		case "> = 7 250 000 euros et < 7 500 000 euros" : budget = 7375;
+								break;
+		case "> = 7 500 000 euros et < 7 750 000 euros" : budget = 7625;
+								break;	
+		case "> = 7 750 000 euros et < 8 000 000 euros" : budget = 7875;
+								break;
+		case "> = 8 000 000 euros et < 8 250 000 euros" : budget = 8125;
+								break;	
+		case "> = 8 250 000 euros et < 8 500 000 euros" : budget = 8375;
+								break;
+		case "> = 8 500 000 euros et < 8 750 000 euros" : budget = 8625;
+								break;	
+		case "> = 8 750 000 euros et < 9 000 000 euros" : budget = 8875;
+								break;
+		case "> = 9 000 000 euros et < 9 250 000 euros" : budget = 9125;
+								break;	
+		case "> = 9 250 000 euros et < 9 500 000 euros" : budget = 9375;
+								break;
+		case "> = 9 500 000 euros et < 9 750 000 euros" : budget = 9625;
+								break;	
+		case "> = 9 750 000 euros et < 10 000 000 euros" : budget = 9875;
+								break;
+		case "> = 10 000 000 euros" : budget = 11000;
+								break;					
+		default : budget = 1;	
+		}
+		return budget;
+		}
+
+function analyseBudget(cytob) {
+		var budgetTotal = 0;
+		var topVingt = [{id:"XXX", nomUsage : "XXX", budget : 0}];
+		var listeNR = [];
+		var analyseBudget = {};
+		cytob.nodes().forEach(function(nd,i,nds) {
+		if (nd.data('budget')) {
+			var bud = nd.data('budget');
+			if (bud == 1) {
+						var ndO = {id : nd.data('id_original'), nomUsage : nd.data('nomUsage')};
+						listeNR.push(ndO);
+							}
+			else {
+				budgetTotal = budgetTotal + bud;
+				for (var cle in topVingt) {
+					if (bud >= topVingt[cle].budget) {
+						var ndObj = {id : nd.data('id_original'), nomUsage : nd.data('nomUsage'), budget : nd.data('budget')}
+						topVingt.splice(cle,0,ndObj);
+						topVingt = topVingt.slice(0,20);
+						break;
+						}
+					}
+				}
+		}
+		});
+		analyseBudget = { total : budgetTotal, tops : topVingt, NR : listeNR };
+		
+		console.log(analyseBudget);
+		return analyseBudget;		
+		}
+
+function formatNoeud(brut,date) {
+	var budgetsize = 0;
+	var activite = false;
+	for (var cle in brut.exercices) {
+		if (brut.exercices[cle].publicationCourante && (brut.exercices[cle].publicationCourante.dateFin == date)) {
+		activite = true;
+		budgetsize = numerisationBudget(brut.exercices[cle].publicationCourante.montantDepense);
+		}
+		else {activite = false;
+			budgetsize = 0;}
+	}
+	var nomUsage;
+	if (brut ['nomUsage'] && (brut['nomUsage'] != ""))
+		{ nomUsage = brut ['nomUsage'];}
+	else {nomUsage = brut ['denomination'];};
+	
+	var node = { data : { id : brut['typeIdentifiantNational']+brut['identifiantNational'],
+							denomination : brut['denomination'],
+							nomUsage : nomUsage,
+							typeIdentifiantNational : brut['typeIdentifiantNational'],
+							identifiantNational : brut['identifiantNational'],
+							clients : brut['clients'],
+							affiliations : brut['affiliations'],
+							budget : budgetsize,
+							weight : 30 + 0.15*budgetsize,
+							actif : activite
+						}
+				};
+	return node;
+}
+
+function construireEdges(cyObject) {
+	var edgesArr = [];
+	cyObject.nodes().forEach(function(nd,i,nds) {
+		if (nd.data('clients') && nd.data('clients').length != 0) {
+			for (var cle in nd.data('clients')) {
+				var ele = nd.data('clients')[cle];
+				var idCli = ele.typeIdentifiantNational + ele.identifiantNational;
+				var edgeId = nd.id() + idCli;
+				if (cyObject.getElementById(idSup).isNode() && !cyObject.getElementById(edgeId).isEdge()) {
+						var newedge = { group : "edges",
+									data : { id : edgeId,
+											target : idCli,
+											source : nd.id(),									
+											},
+									classes : "MembreOuClient"							
+									};
+						cyObject.add(newedge);
+						}
+			}
+		}	
+		if (nd.data('affiliations') && nd.data('affiliations').length != 0) {
+			for (var cle in nd.data('affiliations')) {
+				var ele = nd.data('affiliations')[cle];
+				var idSup = ele.typeIdentifiantNational + ele.identifiantNational;
+				var edgeId = idSup + nd.id();
+				if (cyObject.getElementById(idSup).isNode() && !cyObject.getElementById(edgeId).isEdge()) {
+						var newedge = { group : "edges",
+									data : { id : edgeId,
+											target : nd.id(),
+											source : idSup
+											},
+									classes : "MembreOuClient"
+									};
+						cyObject.add(newedge);
+						}
+			}
+		}		
+	}
+	)
+}
+
+function loadFile() {
+    var input, file, fr;
+
+    if (typeof window.FileReader !== 'function') {
+      alert("The file API isn't supported on this browser yet.");
+      return;
+    }
+
+    input = document.getElementById('fileinput');
+    if (!input) {
+      alert("Um, couldn't find the fileinput element.");
+    }
+    else if (!input.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+      alert("Please select a file before clicking 'Load'");
+    }
+    else {
+      file = input.files[0];
+      fr = new FileReader();
+      fr.onload = receivedText;
+      fr.readAsText(file);
+    }
+	
+    function receivedText(e) {
+      let lines = e.target.result;
+      var newArr = JSON.parse(lines);
+	  //console.log(newArr);
+	  switch (traitementDuBrut(newArr)) {
+		 case "HATVP" : 
+				for (var Key in chargement) {
+						var noeud = formatNoeud(chargement[Key],"31-12-2017");
+						if (noeud.data.actif) {cy.add(noeud); } 
+						}
+				
+				construireEdges(cy);
+				var options =  {
+						name:'grid'
+						/* options de 'cose'
+						,animate:false, 
+						refresh:.1,
+						edgeElasticity: 20,
+						fit: true,
+						gravity: 100 
+						*/
+						};
+				console.log(cy.json());
+				cy.layout(options).run();
+				
+				var analyse = analyseBudget(cy);
+				//console.log(analyse);
+				affichage = "<h2> <b> Budget Total déclaré :" + analyse.total*1000 + "euros </b> </h2>";
+				affichage += "<b> TOP 20 </b>";
+				for (var k=0; k<=19; k++) {
+					affichage += "<br>" + analyse.tops[k].nomUsage + "- " + analyse.tops[k].budget*1000 + " euros.";
+				};
+				affichage += "<br> <b> Budgets non renseignés </b>";
+				for (var k=0; k<=analyse.NR.length-1; k++) {
+					affichage += "<br>" + analyse.NR[k].nomUsage;
+				};
+				document.getElementById('budget').innerHTML = affichage;
+				
+				
+				
+			break;
+		case "cyto" :
+				cy.json(chargement);
+				var options = {
+						name: 'preset',
+						positions: undefined, // map of (node id) => (position obj); or function(node){ return somPos; }
+						zoom: undefined, // the zoom level to set (prob want fit = false if set)
+						pan: undefined, // the pan level to set (prob want fit = false if set)
+						fit: true, // whether to fit to viewport
+						padding: 30, // padding on fit
+						animate: false, // whether to transition the node positions
+						animationDuration: 500, // duration of animation in ms if enabled
+						animationEasing: undefined, // easing of animation if enabled
+						animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+						ready: undefined, // callback on layoutready
+						stop: undefined, // callback on layoutstop
+						transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+						};
+				//console.log(cy.json());			
+				cy.layout(options).run();
+				var analyse = analyseBudget(cy);
+				//console.log(analyse);
+				affichage = "<h2> <b> Budget Total déclaré :" + analyse.total*1000 + "euros </b> </h2>";
+				affichage += "<b> TOP 20 </b>";
+				for (var k=0; k<=19; k++) {
+					affichage += "<br>" + analyse.tops[k].nomUsage + "- " + analyse.tops[k].budget*1000 + " euros.";
+				}
+				
+				document.getElementById('budget').innerHTML = affichage;
+				
+			break;
+		default : console.log(newArr);		
+			
+		}
+	}
+  }
+;
+	</script>
+	
+</body>
+
+</html>

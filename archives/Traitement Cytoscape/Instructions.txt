@@ -1,17 +1,20 @@
-DEMO : 
+Installation : 
 Copier index.html et cytoscape.js dans le même repertoire.
 Lancer index.html avec un navigateur web.
+
 Indiquer dans le champ "Parcourir" le fichier à importer, avec deux possibilités :
 
- - soit on load le fichier brut de la HATVP (.json), on obtient dans la console l'objet .cy à copier coller pour créer un fichier (à convertir en UTF-8) importable" dans cytoscape (Import/Network/File) 
+mode HATVP:
+ - on load le fichier brut de la HATVP (.json), on obtient dans la console l'objet .cy à copier coller pour créer un fichier (à convertir en UTF-8) importable" dans cytoscape (Import/Network/File) 
 Dans cytoscape, on applique le layout, c'est à dire qu'on crée le graphe à probablement parler (plusieurs algo pour différents type de graphe, réglages de paramètres possible).
+Le layout "cose" donne des résultats pas mal.
 On peut ensuite exporter le network avec les coordonnées des noeuds de chaque lobby, c'est à dire créer un fichier .cyjs
 Enregistrer le fichier .cyjs quelquepart.
 
-- soit on load un fichier .cyjs comportant les noeuds avec leurs coordonnées calculées par cytoscape.js.
+mode cyjs:
+- on load un fichier .cyjs comportant les noeuds avec leurs coordonnées calculées par cytoscape.
 
-Mode rapide (traitement cytoscape déjà effectuer dans le fichier 'PremierTraitement.json.cyjs') :
--Copier index.html et cytoscape.js dans le même repertoire.
-Enregistrer le fichier PremierTraitement.json.cyjs quelquepart.
-Lancer index.html avec un navigateur web.
-Indiquer dans le champ "Parcourir" le fichier PremierTraitement.json.cyjs et lancer 'Load'
+Data :
+PremierTraitement.json est le json obtenu en console de 'index.html' en chargeant les données HATVP du 13 septembre 2018.
+PremierTraitement.json.cyjs est le fichier obtenu en export de cytoscape avec les données HATVP du 13 septembre 2018.
+C'est, dans un format exploitable par la librairie cytoscape.js, le réseau des lobbys pour la période 07/2017 à 12/2017, coordonnées des lobbys calculées par cytoscape avec le layout "cose".
